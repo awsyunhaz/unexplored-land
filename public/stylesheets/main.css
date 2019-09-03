@@ -1,5 +1,10 @@
+.body {
+  min-height: 100vh;
+}
+
 .footer {
   background-color: #E5E5E5;
+  width: 100%;
 }
 
 /*Navbar*/
@@ -95,4 +100,3 @@
   background-image: url("/img/blog-header.png");
   background-size: cover;
 }
-
