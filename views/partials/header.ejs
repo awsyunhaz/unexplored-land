@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Make site responsive on mobile/tablet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UndiscoveredLand</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-md">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbarSupportedContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="<%= typeof page !== 'undefined' && page === 'landing' ? 'active' : '' %>">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown <%= typeof page !== 'undefined' && page === 'explore' ? 'active' : '' %>">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Explore
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Africa</a>
+              <a class="dropdown-item" href="#">Asia</a>
+              <a class="dropdown-item" href="#">Europe</a>
+              <a class="dropdown-item" href="#">North America</a>
+              <a class="dropdown-item" href="#">Oceania</a>
+              <a class="dropdown-item" href="#">South America</a>
+            </div>
+          </li>
+          <li class="<%= typeof page !== 'undefined' && page === 'gallery' ? 'active' : '' %>">
+            <a class="nav-link" href="/galleries">Gallery</a>
+          </li>
+          <li class="<%= typeof page !== 'undefined' && page === 'blog' ? 'active' : '' %>">
+            <a class="nav-link" href="/blogs">Blog</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+          <% if(!currentUser){ %>
+            <li class="<%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="<%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>">
+              <a class="nav-link" href="/register">Sign Up</a>
+            </li>
+          <% } else { %>
+              <li><a class="nav-link" href="#"><%= currentUser.username %></a></li>
+              <li><a class="nav-link" href="/logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="container">
+      <% if(error && error.length > 0){%>
+        <div class="alert alert-danger" role="alert">
+            <%= error %>
+        </div>
+      <%} %> 
+      <% if(success && success.length > 0){ %>
+        <div class="alert alert-success" role="alert">
+            <%= success %>
+        </div>
+      <% } %>
+    </div>

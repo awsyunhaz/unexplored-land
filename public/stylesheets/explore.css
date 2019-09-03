@@ -1,0 +1,62 @@
+#explore{
+	height: 100vh;
+	background-color: white;
+}
+
+#explore h2{
+	margin-top: 15vh;
+	color: #0F6480;
+}
+
+.map-col {
+    max-width: 1024px;
+    text-align: center;
+    margin: 80px auto;
+    margin-bottom: 0px;
+    margin-top: 10vh;
+}
+
+#north-america {
+    width: 43%;
+    display: block;
+    float: left;
+}
+
+#europe {
+    width: 20%;
+    display: block;
+    position: relative;
+    margin-top: -1%;
+    float: left;
+}
+
+#asia {
+    width: 38%;
+    display: block;
+    margin-left: -7%;
+    float: left;
+}
+
+#south-america {
+    width: 17%;
+    display: block;
+    float: left;
+    margin-top: -7%;
+    margin-left: 19%;
+}
+
+#africa {
+    width: 17%;
+    display: block;
+    float: left;
+    margin-top: -14%;
+    margin-left: 9%;
+}
+
+#oceania {
+    width: 15%;
+    display: block;
+    float: right;
+    margin-top: -7%;
+    margin-right: 6%;
+}

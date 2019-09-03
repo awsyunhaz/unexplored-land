@@ -1,0 +1,96 @@
+<% include partials/header %>
+
+<link rel="stylesheet" href="/stylesheets/landing.css">
+<link rel="stylesheet" href="/stylesheets/explore.css">
+
+<section id="landing-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center fir-title">
+        <h1>Unexplored Land</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center sec-title">
+        <a class="btn btn-lg btn-info" href="#explore">Explore the World</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <a href="#explore" class="downarrow"></a>
+      </div>
+    </div>
+  </div>
+
+  <ul class="slideshow">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+</section>
+
+<section id="explore">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Explore</h2>
+      </div>
+    </div>
+    <div class="col-sm-12 map-col">
+      <a href="#" alt="North America">
+        <img src="/img/map/north-america.png" id="north-america" alt="north-america">
+      </a>
+      <a href="#" alt="Europe">
+        <img src="/img/map/europe.png" id="europe" alt="europe">
+      </a>
+      <a href="#" alt="Asia">
+        <img src="/img/map/asia.png" id="asia" alt="asia">
+      </a>
+      <a href="#" alt="South America">
+        <img src="/img/map/south-america.png" id="south-america" alt="south-america">
+      </a>
+      <a href="#" alt="Africa">
+        <img src="/img/map/africa.png" id="africa" alt="africa">
+      </a>
+      <a href="#" alt="Oceania">
+        <img src="/img/map/oceania.png" id="oceania" alt="oceania">
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="intro" class="container-fluid">
+  <div class="row align-items-center pt-5">
+    <div class="col-md-6 text-center">
+      <div class="row justify-content-center">
+        <div class="col-10 col-lg-8 blurb mb-5 mb-md-0">
+          <h2 class="pt-1">Gallery</h2>
+          <p class="lead pt-4">Upload photos to capture and share the best moment of your travel experiences!</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <img class="img-fluid" src="img/gallery.jpg" alt="gallery">
+    </div>
+  </div>
+
+  <div class="row align-items-center py-5">
+    <div class="col-md-6 order-2 order-md-1">
+      <img class="img-fluid" src="img/blog.jpeg" alt="blog">
+    </div>
+    <div class="col-md-6 text-center order-1 order-md-2">
+      <div class="row justify-content-center">
+        <div class="col-10 col-lg-8 blurb mb-5 mb-md-0">
+          <h2 class="pt-1">Blog</h2>
+          <p class="lead pt-4">Write your travel stories and save the memory forever!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% include partials/footer %>
