@@ -1,7 +1,30 @@
-var Campground = require("../models/campground"),
+var Gallery = require("../models/gallery"),
+    Campground = require("../models/campground"),
     Comment = require("../models/comment"),
     middlewareObj = {}; 
 
+middlewareObj.checkGalleryOwnership = function(req, res, next){
+    if (req.isAuthenticated()){
+        Gallery.findById(req.params.id, function(err, foundGallery){
+            if (err){
+                req.flash.error("error", "Campground Not Found!")
+                res.redirect("back");
+            } else {
+                console.log(foundGallery);
+                if (foundGallery.author.id.equals(req.user._id)){
+                    next();
+                }
+                else{
+                    res.redirect("error", "Permision Denied!")
+                    res.redirect("back");
+                }
+            }
+        })
+    } else {
+        req.flash("error", "Please Login first!");
+        res.redirect("back");
+    }
+}
 middlewareObj.checkCampgroundOwnership = function(req, res, next){
 	if (req.isAuthenticated()){
         Campground.findById(req.params.id, function(err, foundCampground){

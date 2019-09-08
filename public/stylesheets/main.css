@@ -1,10 +1,11 @@
-.body {
-  min-height: 100vh;
-}
-
 .footer {
   background-color: #E5E5E5;
-  width: 100%;
+  height: 5vh;
+}
+
+.wrapper {
+  margin-top: 5vh;
+  min-height: 80vh;
 }
 
 /*Navbar*/
@@ -47,11 +48,10 @@
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-
 /*Form*/
 .form-signin {
   width: 100%;
-  max-width: 330px;
+  max-width: 400px;
   padding: 15px;
   margin: auto;
 }
@@ -78,9 +78,14 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
 .delete-form {
   display: inline;
+}
+.form-group #description{
+  height: 20vh;
+}
+.input-group-text{
+  width: 120px;
 }
 
 /* Google Maps */
@@ -89,13 +94,24 @@
   width: 100%;
 }
 
+/* Gallery */
 .gallery-header{
+  margin-top: 15px;
+  height: 40vh;
   color: white;
   background-image: url("/img/gallery-header.jpg");
   background-size: cover;
 }
+.gallershow-header h1,h3{
+  color: white
+}
+.gallery-disc{
+  font-family: 'Dancing Script', cursive;
+}
 
 .blog-header{
+  margin-top: 15px;
+  height: 40vh;
   color: white;
   background-image: url("/img/blog-header.png");
   background-size: cover;

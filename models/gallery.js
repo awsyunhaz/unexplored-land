@@ -4,7 +4,8 @@ var mongoose = require("mongoose");
 var gallerySchema = new mongoose.Schema({
     city: String,
     continent: String,
-    image: String,
+    coverImage: String,
+    images: [],
     description: String,
     location: String,
     lat: Number,

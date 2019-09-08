@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express     = require("express"),
     app         = express(),
     bodyParser  = require("body-parser"),
@@ -30,7 +31,7 @@ app.use(flash());
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "I love Fengqi",
+    secret: "unexploredland",
     resave: false,
     saveUninitialize: false
 }));

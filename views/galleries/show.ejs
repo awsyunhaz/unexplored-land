@@ -1,0 +1,73 @@
+<% include ../partials/header%>
+
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
+
+<div class="container wrapper">
+  <header class="jumbotron gallershow-header" style="background: url('<%= gallery.coverImage %>') center center">
+    <div class="container">
+      <h1><%= gallery.city %></h1>
+      <h3 class="gallery-disc">"<%= gallery.description %>"</h3>
+      <% if(currentUser && gallery.author.id.equals(currentUser._id)){ %>
+        <form class="delete-form" action="/galleries/<%= gallery._id %>?_method=DELETE" method="POST">
+          <button class="btn btn-danger float-right mx-2">Delete Gallery</button>
+        </form>
+        <button class="btn btn-warning float-right mx-2" href="/galleries/<%= gallery._id %>/edit">Edit Gallery</button>>
+        <button class="btn btn-success float-right mx-2" data-toggle="modal" data-target="#imgModal">Add New Photos</button>
+      <% } %>
+    </div>
+  </header>
+
+  <!-- Modal -->
+  <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel" aria-hidden="true"><
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="imgModalLabel">Add New Photos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="modal-form" action="/galleries/<%= gallery._id %>/add" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Image</span>
+                </div>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" name="image" id="image" accept="image/*" required>
+                  <label class="custom-file-label" for="image">Choose file</label>
+                </div>
+                <script type="text/javascript">
+                  $('#image').on('change',function(){
+                    var fileName = $(this).val();
+                    $(this).next('.custom-file-label').html(fileName);
+                  })
+                </script>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" form="modal-form">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="mt-2 mb-5">
+
+  <div class="row text-center text-lg-left">
+    <% gallery.images.forEach(function(img){ %>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="#" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="<%= img %>" alt="">
+        </a>
+      </div>
+    <% }); %>
+  </div>
+
+</div>
+
+<% include ../partials/footer%>
