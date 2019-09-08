@@ -3,15 +3,15 @@
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
 
 <div class="container wrapper">
-  <header class="jumbotron gallershow-header" style="background: url('<%= gallery.coverImage %>') center center">
+  <header class="jumbotron galleryshow-header" style="background: url('<%= gallery.coverImage %>') center center">
     <div class="container">
       <h1><%= gallery.city %></h1>
-      <h3 class="gallery-disc">"<%= gallery.description %>"</h3>
+      <h3 class="gallery-desc">"<%= gallery.description %>"</h3>
       <% if(currentUser && gallery.author.id.equals(currentUser._id)){ %>
         <form class="delete-form" action="/galleries/<%= gallery._id %>?_method=DELETE" method="POST">
           <button class="btn btn-danger float-right mx-2">Delete Gallery</button>
         </form>
-        <button class="btn btn-warning float-right mx-2" href="/galleries/<%= gallery._id %>/edit">Edit Gallery</button>>
+        <a class="btn btn-warning float-right mx-2" href="/galleries/<%= gallery._id %>/edit">Edit Gallery</a>
         <button class="btn btn-success float-right mx-2" data-toggle="modal" data-target="#imgModal">Add New Photos</button>
       <% } %>
     </div>

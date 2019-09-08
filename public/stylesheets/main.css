@@ -1,6 +1,5 @@
 .footer {
   background-color: #E5E5E5;
-  height: 5vh;
 }
 
 .wrapper {
@@ -95,24 +94,54 @@
 }
 
 /* Gallery */
-.gallery-header{
-  margin-top: 15px;
-  height: 40vh;
+.gallery-banner{
+  margin-top: 20px;
+  height: 30vh;
   color: white;
   background-image: url("/img/gallery-header.jpg");
   background-size: cover;
 }
-.gallershow-header h1,h3{
+.galleryshow-header h1{
   color: white
 }
-.gallery-disc{
+.gallery-desc{
+  color: white;
   font-family: 'Dancing Script', cursive;
+  word-wrap: break-word;
 }
 
-.blog-header{
-  margin-top: 15px;
-  height: 40vh;
+.blog-banner{
+  margin-top: 20px;
+  height: 30vh;
   color: white;
   background-image: url("/img/blog-header.png");
   background-size: cover;
+}
+.continent-collapse{
+  padding-bottom: 30px;
+}
+
+.continent-collapse .card-header a:after {
+    font-family: 'FontAwesome';  
+    content: "\f068";
+    float: right; 
+}
+.continent-collapse .card-header.collapsed a:after {
+    content: "\f067"; 
+}
+
+.continent-collapse .card-header:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+.card-body{
+  padding: 0.75rem;
+}
+.card-title,.card-desc{
+  margin-bottom: 0.5rem;
+}
+.card-desc{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
