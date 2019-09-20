@@ -14,7 +14,7 @@ var options = {
   formatter: null
 };
 var geocoder = NodeGeocoder(options);
-console.log(process.env.GEOCODER_API_KEY);
+
 // Image upload using cloudinary
 var storage = multer.diskStorage({
   filename: function(req, file, callback) {
@@ -66,6 +66,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
             id: req.user._id,
             username: req.user.username
           };
+
       // Use Google geocoding API to get latitude and longtitude on map
       geocoder.geocode(req.body.location, function (err, data) {
         if (err || !data.length) {

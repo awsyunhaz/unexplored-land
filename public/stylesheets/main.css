@@ -81,7 +81,7 @@
 .delete-form {
   display: inline;
 }
-.form-group .comment{
+.form-group .desc{
   height: 20vh;
 }
 .input-group-text{
@@ -97,7 +97,7 @@
 /* Gallery */
 .gallery-banner{
   margin-top: 20px;
-  height: 30vh;
+  height: 40vh;
   color: white;
   background-image: url("/img/gallery-header.jpg");
   background-size: cover;
@@ -113,7 +113,7 @@
 
 .blog-banner{
   margin-top: 20px;
-  height: 30vh;
+  height: 40vh;
   color: white;
   background-image: url("/img/blog-header.png");
   background-size: cover;
@@ -145,4 +145,17 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+#file-name{
+  width: 60%;
 }

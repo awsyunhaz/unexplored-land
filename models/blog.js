@@ -2,11 +2,12 @@ var mongoose = require("mongoose");
 
 // Schema setup
 var blogSchema = new mongoose.Schema({
+    title: String,
     city: String,
     continent: String,
     coverImage: String,
-    blog: String,
-    location: String,
+    content: String,
+    created_at: {type: Date, default: Date.now},
     lat: Number,
     lng: Number,
     author: {

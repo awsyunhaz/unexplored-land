@@ -1,6 +1,7 @@
 var express = require("express"),
     router  = express.Router(),
-    Campground  = require("../models/gallery"),
+    Blog  = require("../models/blog"),
+    continentMap = require("../public/continent"),
     middleware = require("../middleware"),
     NodeGeocoder = require('node-geocoder'),
     multer = require('multer');
@@ -40,101 +41,91 @@ cloudinary.config({
 // CAMPGROUNDS ROUTES
 // =============================
 router.get("/", function(req, res){
-    Campground.find({}, function(err, allBlogs){
+    Blog.find({}, function(err, allBlogs){
         if (err){
             console.log(err);
         } else {
-            res.render("blogs/index", {blogs: allBlogs, page: "Blogs"})
+            res.render("blogs/index", {blogs: allBlogs, page: "Blogs"});
         };
     })
 });
 
-router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res){
-    var name = req.body.name;
-    var price = req.body.price;
-    var desc = req.body.description;
-    var author = {
-        id: req.user._id,
-        username: req.user.username
-    }
-    var newCampground = {name: name, price: price, description: desc, author: author};
-
-    console.log(req.body);
-    // geocoder.geocode(req.body.location, function (err, data) {
-    cloudinary.uploader.upload(req.file.path, function(result) {
-        // if (err || !data.length) {
-        //     req.flash("error", err.message);
-        //     // req.flash('error', 'Invalid address');
-        //     return res.redirect('back');
-        // }
-        // newCampground.lat = data[0].latitude;
-        // newCampground.lng = data[0].longitude;
-        // newCampground.location = data[0].formattedAddress;
-        newCampground.location = req.body.location;
-        // console.log(newCampground.lat);
-
-        // add cloudinary url for the image to the campground object under image property
-        newCampground.image = result.secure_url;
-        Campground.create(newCampground, function(err, campground) {
-            if (err) {
-                req.flash('error', err.message);
-                return res.redirect('back');
-            }
-            res.redirect('/campgrounds/' + campground.id);
+router.post("/", middleware.isLoggedIn, upload.single('cover-image'), function(req, res){
+    geocoder.geocode(req.body.blog.city, function (err, data) {
+        if (err || !data.length) {
+            req.flash("error", err.message);
+            // req.flash('error', 'Invalid address');
+            return res.redirect('back');
+        }
+        var continent = continentMap[data[0].countryCode];
+        cloudinary.uploader.upload(req.file.path, function(result) {
+            // add cloudinary url for the image to the blog object under image property
+            Blog.create(req.body.blog, function(err, blog) {
+                if (err) {
+                    req.flash('error', err.message);
+                    return res.redirect('back');
+                }
+                console.log(result.secure_url);
+                blog.coverImage = result.secure_url;
+                blog.author.id = req.user._id;
+                blog.author.username = req.user.username;
+                blog.continent = continent;
+                blog.save();
+                res.redirect('/blogs/' + blog.id);
+            });
         });
     });
 });
-// });
 
 // New Route
 router.get("/new", middleware.isLoggedIn,function(req, res){
-    res.render("campgrounds/new")
-})
+    res.render("blogs/new")
+});
 
 // Show Route
-router.get("/:id", function(req, res){
-    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+router.get("/:blogId", function(req, res){
+    Blog.findById(req.params.blogId).populate("comments").exec(function(err, blog){
         if (err){
             console.log(err);
         } else {
-            console.log(foundCampground);
-            res.render("campgrounds/show", {campground: foundCampground});
+            console.log(blog);
+            res.render("blogs/show", {blog: blog});
         }
     })
-})
+});
 
 // Edit Route
-router.get("/:id/edit", middleware.checkBlogOwnership, function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
-        res.render("campgrounds/edit", {campground: foundCampground});
+router.get("/:blogId/edit", middleware.checkBlogOwnership, function(req, res){
+    Blog.findById(req.params.blogId, function(err, blog){
+        res.render("blogs/edit", {blog: blog});
     })
-})
+});
 
 // Update Route
-router.put("/:id", middleware.checkBlogOwnership, upload.single('image'), function(req, res){
-    var updatedCampground = req.body.campground;
+router.put("/:blogId", middleware.checkBlogOwnership, upload.single('cover-image'), function(req, res){
+    var updatedBlog = req.body.blog;
 
     cloudinary.uploader.upload(req.file.path, function(result) {
-        updatedCampground.image = result.secure_url;
-        Campground.findByIdAndUpdate(req.params.id, updatedCampground, function(err, _){
+        updatedBlog.coverImage = result.secure_url;
+        Blog.findByIdAndUpdate(req.params.blogId, updatedBlog, function(err, _){
             if (err){
-                res.redirect("/campgrounds");
+                res.redirect("/blogs");
             } else {
-                res.redirect("/campgrounds/" + req.params.id)
+                res.redirect("/blogs/" + req.params.blogId)
             }
         });
     });
-})
+});
 
 // Destroy Route
-router.delete("/:id", middleware.checkBlogOwnership, function(req, res){
-    Campground.findByIdAndRemove(req.params.id, function(err){
+router.delete("/:blogId", middleware.checkBlogOwnership, function(req, res){
+    Blog.findByIdAndRemove(req.params.blogId, function(err){
         if (err){
-            res.redirect("/campgrounds");
+            res.redirect("/blogs");
         } else {
-            res.redirect("/campgrounds");
+            res.redirect("/blogs");
         }
     })
-})
+});
 
 module.exports = router;

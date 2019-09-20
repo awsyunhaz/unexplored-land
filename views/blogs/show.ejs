@@ -1,0 +1,34 @@
+<% include ../partials/header.ejs %>
+
+<div class="container wrapper">
+    <div class="ui main text container segment">
+        <div class="ui huge header"><%= blog.title %></div>
+        <div class="ui top attached">
+            <img class="ui centered rounded image" src="<%= blog.coverImage %>">
+            <div class="ui padded grid">
+                <div class="two column row">
+                    <div class="column">
+                        <% if(currentUser && blog.author.id.equals(currentUser._id)){ %>
+                            <div class="ui action input">
+                            <a class="ui green basic button" href="/blogs/<%= blog._id %>/edit">Edit</a>
+                            <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                                <button class="ui red basic button mx-2">Delete</button>
+                            </form>
+                            </div>
+                        <% } %>
+                    </div>
+                    <div class="column right floated right aligned">
+                        <p><%= blog.created_at.toString().substring(0, 24) %></p>
+                    </div>
+                </div>
+                <div class="sixteen wide column">
+                    <hr>
+                    <p><%= blog.content %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer.ejs %>
+

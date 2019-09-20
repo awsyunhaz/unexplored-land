@@ -13,7 +13,7 @@
   <div class="continent-collapse">
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-af" aria-expanded="false" aria-controls="collapse-af">
-        <a href="#collapse-af">Africa</a>
+        <a href="#collapse-af"><h3>Africa</h3></a>
       </div>
       <div class="collapse" id="collapse-af">
         <div class="card card-body">
@@ -37,7 +37,7 @@
 
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-as" aria-expanded="false" aria-controls="collapse-as">
-        <a href="#collapse-as">Asia</a>
+        <a href="#collapse-as"><h3>Asia</h3></a>
       </div>
       <div class="collapse" id="collapse-as">
         <div class="card card-body">
@@ -61,13 +61,13 @@
 
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-eu" aria-expanded="false" aria-controls="collapse-eu">
-        <a href="#collapse-as">Europe</a>
+        <a href="#collapse-as"><h3>Europe</h3></a>
       </div>
       <div class="collapse" id="collapse-eu">
         <div class="card card-body">
           <div class="row text-center">
             <% blogs.forEach(function(blog){ %>
-            <% if (blog['continent'] == 'Asia') { %>
+            <% if (blog['continent'] == 'Europe') { %>
               <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
                   <a href="/blogs/<%= blog['_id'] %>"><img src="<%= blog.coverImage %>"  class="card-img-top" alt="<%= blog.city %>"></a>
@@ -85,7 +85,7 @@
 
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-na" aria-expanded="false" aria-controls="collapse-na">
-        <a href="#collapse-na">North America</a>
+        <a href="#collapse-na"><h3>North America</h3></a>
       </div>
       <div class="collapse" id="collapse-na">
         <div class="card card-body">
@@ -109,7 +109,7 @@
 
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-oc" aria-expanded="false" aria-controls="collapse-oc">
-        <a href="#collapse-oc">Oceania</a>
+        <a href="#collapse-oc"><h3>Oceania</h3></a>
       </div>
       <div class="collapse" id="collapse-oc">
         <div class="card card-body">
@@ -133,7 +133,7 @@
 
     <div class="card">
       <div class="card-header collapsed" role="button" data-toggle="collapse" href="#collapse-sa" aria-expanded="false" aria-controls="collapse-sa">
-        <a href="#collapse-na">South America</a>
+        <a href="#collapse-na"><h3>South America</h3></a>
       </div>
       <div class="collapse" id="collapse-sa">
         <div class="card card-body">

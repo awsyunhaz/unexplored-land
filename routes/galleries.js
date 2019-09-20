@@ -1,9 +1,19 @@
 var express = require("express"),
     router  = express.Router(),
     Gallery = require("../models/gallery"),
+    continentMap = require("../public/continent"),
     middleware = require("../middleware"),
     NodeGeocoder = require('node-geocoder'),
     multer = require('multer');
+
+// Google map API
+var options = {
+    provider: 'google',
+    httpAdapter: 'https',
+    apiKey: process.env.GEOCODER_API_KEY,
+    formatter: null
+};
+var geocoder = NodeGeocoder(options);
 
 // Image upload using cloudinary
 var storage = multer.diskStorage({
@@ -41,34 +51,42 @@ router.get("/", function(req, res){
 });
 
 router.post("/", middleware.isLoggedIn, upload.single('cover-image'), function(req, res){
-    console.log(req.body);
     var city = req.body.city;
     var continent = req.body.continent;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
-    }
+    };
     var newGallery = {city: city, continent: continent, description: desc, author: author};
 
-    cloudinary.uploader.upload(req.file.path, function(result) {
-        // add cloudinary url for the image to the campground object under image property
-        newGallery.coverImage = result.secure_url;
-        Gallery.create(newGallery, function(err, gallery) {
-            if (err) {
-                req.flash('error', err.message);
-                return res.redirect('back');
-            }
-            res.redirect('/galleries/' + gallery.id);
+    // Use Google geocoding API to get latitude and longtitude on map
+    geocoder.geocode(city, function (err, data) {
+        if (err || !data.length) {
+            req.flash("error", err.message);
+            // req.flash('error', 'Invalid address');
+            return res.redirect('back');
+        }
+        newGallery.continent = continentMap[data[0].countryCode];
+        newGallery.loc = data[0].formattedAddress;
+        cloudinary.uploader.upload(req.file.path, function (result) {
+            // add cloudinary url for the image to the campground object under image property
+            newGallery.coverImage = result.secure_url;
+            Gallery.create(newGallery, function (err, gallery) {
+                if (err) {
+                    req.flash('error', err.message);
+                    return res.redirect('back');
+                }
+                res.redirect('/galleries/' + gallery.id);
+            });
         });
     });
 });
-// });
 
 // New Route
 router.get("/new", middleware.isLoggedIn,function(req, res){
     res.render("galleries/new")
-})
+});
 
 
 // Show Route
@@ -81,14 +99,14 @@ router.get("/:galleryId", function(req, res){
             res.render("galleries/show", {gallery: gallery});
         }
     })
-})
+});
 
 // Edit Route
 router.get("/:galleryId/edit", middleware.checkGalleryOwnership, function(req, res){
     Gallery.findById(req.params.galleryId, function(err, gallery){
         res.render("galleries/edit", {gallery: gallery});
     })
-})
+});
 
 // Update Route
 router.put("/:galleryId", middleware.checkGalleryOwnership, upload.single('cover-image'), function(req, res){
@@ -104,7 +122,7 @@ router.put("/:galleryId", middleware.checkGalleryOwnership, upload.single('cover
             }
         });
     });
-})
+});
 
 // Destroy Route
 router.delete("/:galleryId", middleware.checkGalleryOwnership, function(req, res){
@@ -115,7 +133,7 @@ router.delete("/:galleryId", middleware.checkGalleryOwnership, function(req, res
             res.redirect("/galleries");
         }
     })
-})
+});
 
 
 module.exports = router;

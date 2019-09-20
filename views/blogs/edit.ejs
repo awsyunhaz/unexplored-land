@@ -1,0 +1,39 @@
+<% include ../partials/header.ejs %>
+
+<div class="container wrapper">
+    <div class="ui main text container segment">
+        <div class="ui huge header">Edit <%= blog.title %></div>
+        <form class="ui form" action="/blogs/<%= blog._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+            <div class="field">
+                <label>Title</label>
+                <input type="text" name="blog[title]" value="<%= blog.title %>" required>
+            </div>
+            <div class="field">
+                <label>City</label>
+                <input type="text" name="blog[city]" value="<%= blog.city %>" required>
+            </div>
+            <div class="field">
+                <label>Cover Image</label>
+                <input type="text" id="file-name" placeholder="File" readonly>
+                <input type="file" (change)="fileEvent($event)" class="inputfile" id="cover-image" name="cover-image" accept="image/*" required>
+                <label for="cover-image" class="ui huge green right floated button">
+                    <i class="ui upload icon"></i>
+                    Upload image
+                </label>
+                <script>
+                    $('input:file').on('change', function(e) {
+                        var name = e.target.files[0].name;
+                        $('input:text', $(e.target).parent()).val(name);
+                    });
+                </script>
+            </div>
+            <div class="field">
+                <label>Content</label>
+                <textarea name="blog[content]"></textarea>
+            </div>
+            <input class="ui blue big basic button" type="submit">
+        </form>
+    </div>
+</div>
+
+<% include ../partials/footer.ejs %>

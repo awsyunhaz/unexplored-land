@@ -1,0 +1,51 @@
+<% include ../partials/header.ejs %>
+
+<div class="container wrapper">
+    <div class="ui main text container segment">
+        <div class="ui huge header">Write a Traveling Blog</div>
+        <form class="ui form blog" action="/blogs" method="POST" enctype="multipart/form-data">
+            <div class="field">
+                <label>Title</label>
+                <input type="text" name="blog[title]" placeholder="title" required>
+            </div>
+            <div class="field">
+                <label>City</label>
+                <input type="text" name="blog[city]" placeholder="city" required>
+            </div>
+            <div class="field">
+                <label>Cover Image</label>
+                <input type="text" id="file-name" placeholder="File" readonly>
+                <input type="file" (change)="fileEvent($event)" class="inputfile" id="cover-image" name="cover-image" accept="image/*" required>
+                <label for="cover-image" class="ui huge green right floated button">
+                    <i class="ui upload icon"></i>
+                    Upload image
+                </label>
+                <script>
+                    $('input:file').on('change', function(e) {
+                        var name = e.target.files[0].name;
+                        $('input:text', $(e.target).parent()).val(name);
+                    });
+                </script>
+<!--                <div class="custom-file">-->
+<!--                    <input type="file" class="custom-file-input" name="cover-image" id="cover-image" accept="image/*" required>-->
+<!--                    <label class="custom-file-label" for="cover-image">Choose file</label>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;                        Display file name after uploading&ndash;&gt;-->
+<!--                <script type="text/javascript">-->
+<!--                    $('#cover-image').on('change',function(){-->
+<!--                        var fileName = $(this).val();-->
+<!--                        $(this).next('.custom-file-label').html(fileName);-->
+<!--                    })-->
+<!--                </script>-->
+            </div>
+            <div class="field">
+                <label>Content</label>
+                <textarea name="blog[content]"></textarea>
+            </div>
+            <input class="ui blue big basic button" type="submit">
+            <a class="float-right" href="/blogs">Go Back</a>
+        </form>
+    </div>
+</div>
+
+<% include ../partials/footer.ejs %>

@@ -75,7 +75,7 @@ middlewareObj.checkPhotoOwnership = function(req, res, next){
 
 middlewareObj.checkBlogOwnership = function(req, res, next){
     if (req.isAuthenticated()){
-        Blog.findById(req.params.id, function(err, foundBlog){
+        Blog.findById(req.params.blogId, function(err, foundBlog){
             if (err){
                 req.flash.error("error", "Blog Not Found!")
                 res.redirect("back");
