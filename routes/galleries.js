@@ -1,19 +1,9 @@
 var express = require("express"),
     router  = express.Router(),
-    campground  = require("../models/campground"),
-    Gallery  = require("../models/gallery"),
+    Gallery = require("../models/gallery"),
     middleware = require("../middleware"),
     NodeGeocoder = require('node-geocoder'),
     multer = require('multer');
-
-// Google map API
-var options = {
-  provider: 'google',
-  httpAdapter: 'https',
-  apiKey: process.env.GEOCODER_API_KEY,
-  formatter: null
-};
-var geocoder = NodeGeocoder(options);
 
 // Image upload using cloudinary
 var storage = multer.diskStorage({
@@ -61,19 +51,7 @@ router.post("/", middleware.isLoggedIn, upload.single('cover-image'), function(r
     }
     var newGallery = {city: city, continent: continent, description: desc, author: author};
 
-    // geocoder.geocode(req.body.location, function (err, data) {
     cloudinary.uploader.upload(req.file.path, function(result) {
-        // if (err || !data.length) {
-        //     req.flash("error", err.message);
-        //     // req.flash('error', 'Invalid address');
-        //     return res.redirect('back');
-        // }
-        // newCampground.lat = data[0].latitude;
-        // newCampground.lng = data[0].longitude;
-        // newCampground.location = data[0].formattedAddress;
-        // newCampground.location = req.body.location;
-        // console.log(newCampground.lat);
-
         // add cloudinary url for the image to the campground object under image property
         newGallery.coverImage = result.secure_url;
         Gallery.create(newGallery, function(err, gallery) {
@@ -94,43 +72,43 @@ router.get("/new", middleware.isLoggedIn,function(req, res){
 
 
 // Show Route
-router.get("/:id", function(req, res){
-    Gallery.findById(req.params.id).populate("comments").exec(function(err, foundGallery){
+router.get("/:galleryId", function(req, res){
+    Gallery.findById(req.params.galleryId).populate("photos").exec(function(err, gallery){
         if (err){
             console.log(err);
         } else {
-            console.log(foundGallery);
-            res.render("galleries/show", {gallery: foundGallery});
+            console.log(gallery);
+            res.render("galleries/show", {gallery: gallery});
         }
     })
 })
 
 // Edit Route
-router.get("/:id/edit", middleware.checkGalleryOwnership, function(req, res){
-    Gallery.findById(req.params.id, function(err, foundGallery){
-        res.render("galleries/edit", {gallery: foundGallery});
+router.get("/:galleryId/edit", middleware.checkGalleryOwnership, function(req, res){
+    Gallery.findById(req.params.galleryId, function(err, gallery){
+        res.render("galleries/edit", {gallery: gallery});
     })
 })
 
 // Update Route
-router.put("/:id", middleware.checkGalleryOwnership, upload.single('cover-image'), function(req, res){
+router.put("/:galleryId", middleware.checkGalleryOwnership, upload.single('cover-image'), function(req, res){
     var updatedGallery = req.body.gallery;
 
     cloudinary.uploader.upload(req.file.path, function(result) {
         updatedGallery.coverImage = result.secure_url;
-        Gallery.findByIdAndUpdate(req.params.id, updatedGallery, function(err, _){
+        Gallery.findByIdAndUpdate(req.params.galleryId, updatedGallery, function(err, _){
             if (err){
                 res.redirect("/galleries");
             } else {
-                res.redirect("/galleries/" + req.params.id)
+                res.redirect("/galleries/" + req.params.galleryId)
             }
         });
     });
 })
 
 // Destroy Route
-router.delete("/:id", middleware.checkGalleryOwnership, function(req, res){
-    Gallery.findByIdAndRemove(req.params.id, function(err){
+router.delete("/:galleryId", middleware.checkGalleryOwnership, function(req, res){
+    Gallery.findByIdAndRemove(req.params.galleryId, function(err){
         if (err){
             res.redirect("/galleries");
         } else {
@@ -138,23 +116,6 @@ router.delete("/:id", middleware.checkGalleryOwnership, function(req, res){
         }
     })
 })
-
-// Add Photos to Gallery Route
-router.post("/:id/add", middleware.isLoggedIn, upload.single('image'), function(req, res){
-    Gallery.findById(req.params.id).populate("comments").exec(function(err, foundGallery){
-        if (err){
-            console.log(err);
-        } else {
-            console.log(foundGallery);
-            cloudinary.uploader.upload(req.file.path, function(result) {
-                foundGallery.images.push(result.secure_url);
-                foundGallery.save();
-                console.log(foundGallery.images);
-                res.redirect('/galleries/' + foundGallery.id);
-            });
-        };
-    });
-});
 
 
 module.exports = router;

@@ -28,24 +28,32 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="modal-form" action="/galleries/<%= gallery._id %>/add" method="POST" enctype="multipart/form-data">
+          <form id="modal-form" action="/galleries/<%= gallery._id %>/photos" method="POST" enctype="multipart/form-data">
             <div class="form-group">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">Image</span>
-                </div>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" name="image" id="image" accept="image/*" required>
-                  <label class="custom-file-label" for="image">Choose file</label>
-                </div>
-                <script type="text/javascript">
-                  $('#image').on('change',function(){
-                    var fileName = $(this).val();
-                    $(this).next('.custom-file-label').html(fileName);
-                  })
-                </script>
-              </div>
+              <label for="photo-name" class="col-form-label">Name</label>
+              <input type="text" class="form-control" id="photo-name" name="name">
             </div>
+            <div class="form-group">
+              <label for="custom-file" class="col-form-label">Image</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image" id="image" accept="image/*" required>
+                <label class="custom-file-label" for="image">Choose file</label>
+              </div>
+              <script type="text/javascript">
+                $('#image').on('change',function(){
+                  var fileName = $(this).val();
+                  $(this).next('.custom-file-label').html(fileName);
+                })
+              </script>
+            </div>
+            <div class="form-group">
+              <label for="photo-location" class="col-form-label">Location</label>
+              <input type="text" class="form-control" id="photo-location" name="location">
+            </div>
+            <div class="form-group">
+            <label for="photo-desc" class="col-form-label">Description</label>
+            <textarea class="form-control" id="photo-desc" name="desc"></textarea>
+          </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -59,10 +67,10 @@
   <hr class="mt-2 mb-5">
 
   <div class="row text-center text-lg-left">
-    <% gallery.images.forEach(function(img){ %>
+    <% gallery.photos.forEach(function(photo){ %>
       <div class="col-lg-3 col-md-4 col-6">
-        <a href="#" class="d-block mb-4 h-100">
-          <img class="img-fluid img-thumbnail" src="<%= img %>" alt="">
+        <a href="/galleries/<%= gallery._id %>/photos/<%= photo._id %>" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="<%= photo.link %>" alt="<%= photo.name %>">
         </a>
       </div>
     <% }); %>

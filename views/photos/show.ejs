@@ -1,0 +1,167 @@
+<% include ../partials/header%>
+
+<div class="container wrapper">
+	<div class="row">
+		<div class="col-md-3">
+<!-- 			<div class="list-group">
+				<li class="list-group-item active">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">Info 3</li>
+			</div> -->
+			<div id="map"></div>
+		</div>
+
+		<div class="col-md-9">
+      <div class="card mb-3">
+        <img src="<%= photo.link %>" class="card-img-top" alt="<%= photo.name %>">
+        <div class="card-body">
+          <h5 class="card-title"><%= photo.name %></h5>
+          <p>
+            <em>Submitted by <%= photo.author.username %></em>
+          </p>
+          <hr>
+          <p class="card-text"><%= photo.desc %></p>
+          <% if(currentUser && photo.author.id.equals(currentUser._id)){ %>
+            <form class="delete-form" action="/galleries/<%= gallery_id %>/photos/<%= photo._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-s btn-danger float-right mx-2">Delete</button>
+            </form>
+            <a class="btn btn-s btn-warning float-right mx-2" data-toggle="modal" data-target="#imgModal">Edit</a>
+          <% } %>
+        </div>
+      </div>
+			
+      <!-- Edit photo modal -->
+      <div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="imgModalLabel">Edit Photos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="image-form" action="/galleries/<%= gallery_id %>/photos/<%= photo._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="photo-name" class="col-form-label">Name</label>
+                  <input type="text" class="form-control" id="photo-name" name="photo[name]" value="<%= photo.name %>">
+                </div>
+                <div class="form-group">
+                  <label for="custom-file" class="col-form-label">Image</label>
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="image" id="image" accept="image/*" required>
+                    <label class="custom-file-label" for="image">Choose file</label>
+                  </div>
+                  <script type="text/javascript">
+                    $('#image').on('change',function(){
+                      var fileName = $(this).val();
+                      $(this).next('.custom-file-label').html(fileName);
+                    })
+                  </script>
+                </div>
+                <div class="form-group">
+                  <label for="photo-location" class="col-form-label">Location</label>
+                  <input type="text" class="form-control" id="photo-location" name="photo[location]" value="<%= photo.location %>">
+                </div>
+                <div class="form-group">
+                  <label for="photo-desc" class="col-form-label">Description</label>
+                  <textarea class="form-control desc" id="photo-desc" name="photo[desc]" value="<%= photo.desc %>"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" form="modal-form">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+			<div class="card">
+        <div class="card-body">
+          <div class="text-right">
+              <a class="btn btn-success" data-toggle="modal" data-target="#commentModal">Write Comments</a>
+          </div>
+          <hr>
+          <% photo.comments.forEach(function(comment){ %>
+            <div class="row">
+              <div class="col-md-12">
+                  <strong><%= comment.author.username %></strong>
+                  <span class="float-right">10 days ago</span>
+                  <p>
+                      <%= comment.text %>
+                  </p>
+                  <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                  <div class="float-right">
+<!--     			<a class="btn btn-sm btn-warning" href="/photos/<%= photo._id %>/comments/<%= comment._id %>/edit">Edit</a> -->
+                    <form class="delete-form" action="/galleries/<%= gallery_id %>/photos/<%= photo._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                        <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                    </form>
+                  </div>
+                  <% } %>
+              </div>
+            </div>
+            <hr>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Write comment modal -->
+      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="commentModalLabel">Write comments</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="comment-form" action="/galleries/<%= gallery_id %>/photos/<%= photo._id %>/comments" method="POST">
+                <div class="form-group">
+                  <textarea class="form-control comment" name="comment"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" form="comment-form">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+  function initMap() {
+    var lat = <%= photo.lat %>;
+    var lng = <%= photo.lng %>;
+    var center = {lat: lat, lng: lng};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= photo.name %><br />
+      <%= photo.location %></strong>
+      <p><%= photo.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDbFjF6zPIrzrPvQH6rgv_FDhOJ7nMBC8&callback=initMap"></script>
+
+<% include ../partials/footer%>

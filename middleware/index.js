@@ -1,21 +1,22 @@
 var Gallery = require("../models/gallery"),
-    Campground = require("../models/campground"),
+    Photo = require("../models/photo"),
+    Blog = require("../models/blog"),
     Comment = require("../models/comment"),
     middlewareObj = {}; 
 
-middlewareObj.checkGalleryOwnership = function(req, res, next){
+middlewareObj.checkCampgroundOwnership = function(req, res, next){
     if (req.isAuthenticated()){
-        Gallery.findById(req.params.id, function(err, foundGallery){
+        Blog.findById(req.params.id, function(err, foundBlog){
             if (err){
-                req.flash.error("error", "Campground Not Found!")
+                req.flash.error("error", "Blog Not Found!")
                 res.redirect("back");
             } else {
-                console.log(foundGallery);
+                console.log(foundBlog);
                 if (foundGallery.author.id.equals(req.user._id)){
                     next();
                 }
                 else{
-                    res.redirect("error", "Permision Denied!")
+                    res.redirect("error", "Permission Denied!")
                     res.redirect("back");
                 }
             }
@@ -25,19 +26,66 @@ middlewareObj.checkGalleryOwnership = function(req, res, next){
         res.redirect("back");
     }
 }
-middlewareObj.checkCampgroundOwnership = function(req, res, next){
-	if (req.isAuthenticated()){
-        Campground.findById(req.params.id, function(err, foundCampground){
+
+middlewareObj.checkGalleryOwnership = function(req, res, next){
+    if (req.isAuthenticated()){
+        Gallery.findById(req.params.galleryId, function(err, foundGallery){
             if (err){
-                req.flash.error("error", "Campground Not Found!")
+                req.flash.error("error", "Gallery Not Found!")
                 res.redirect("back");
             } else {
-                console.log(foundCampground);
-                if (foundCampground.author.id.equals(req.user._id)){
+                console.log(foundGallery);
+                if (foundGallery.author.id.equals(req.user._id)){
                     next();
                 }
                 else{
-                    res.redirect("error", "Permision Denied!")
+                    res.redirect("error", "Permission Denied!")
+                    res.redirect("back");
+                }
+            }
+        })
+    } else {
+        req.flash("error", "Please Login first!");
+        res.redirect("back");
+    }
+}
+
+middlewareObj.checkPhotoOwnership = function(req, res, next){
+    if (req.isAuthenticated()){
+        Photo.findById(req.params.photoId, function(err, foundPhoto){
+            if (err){
+                req.flash.error("error", "Photo Not Found!")
+                res.redirect("back");
+            } else {
+                console.log(foundPhoto);
+                if (foundPhoto.author.id.equals(req.user._id)){
+                    next();
+                }
+                else{
+                    res.redirect("error", "Permission Denied!")
+                    res.redirect("back");
+                }
+            }
+        })
+    } else {
+        req.flash("error", "Please Login first!");
+        res.redirect("back");
+    }
+}
+
+middlewareObj.checkBlogOwnership = function(req, res, next){
+    if (req.isAuthenticated()){
+        Blog.findById(req.params.id, function(err, foundBlog){
+            if (err){
+                req.flash.error("error", "Blog Not Found!")
+                res.redirect("back");
+            } else {
+                console.log(foundBlog);
+                if (foundBlog.author.id.equals(req.user._id)){
+                    next();
+                }
+                else{
+                    res.redirect("error", "Permission Denied!")
                     res.redirect("back");
                 }
             }
@@ -50,7 +98,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
 
 middlewareObj.checkCommentOwnership = function(req, res, next){
     if (req.isAuthenticated()){
-        Comment.findById(req.params.comment_id, function(err, foundComment){
+        Comment.findById(req.params.commentId, function(err, foundComment){
             if (err){
 
                 res.redirect("back")

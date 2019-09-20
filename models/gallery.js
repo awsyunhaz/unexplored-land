@@ -5,7 +5,12 @@ var gallerySchema = new mongoose.Schema({
     city: String,
     continent: String,
     coverImage: String,
-    images: [],
+    photos: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Photo"
+        },
+    ],
     description: String,
     location: String,
     lat: Number,
@@ -17,12 +22,12 @@ var gallerySchema = new mongoose.Schema({
     	},
     	username: String
     },
-    comments: [
-    	{
-    		type: mongoose.Schema.Types.ObjectId,
-    		ref: "Comment"
-    	}
-    ]
+    // comments: [
+    // 	{
+    // 		type: mongoose.Schema.Types.ObjectId,
+    // 		ref: "Comment"
+    // 	}
+    // ]
 });
 var Gallery = mongoose.model("Gallery", gallerySchema);
 

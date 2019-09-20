@@ -104,14 +104,14 @@ router.get("/:id", function(req, res){
 })
 
 // Edit Route
-router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
+router.get("/:id/edit", middleware.checkBlogOwnership, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         res.render("campgrounds/edit", {campground: foundCampground});
     })
 })
 
 // Update Route
-router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), function(req, res){
+router.put("/:id", middleware.checkBlogOwnership, upload.single('image'), function(req, res){
     var updatedCampground = req.body.campground;
 
     cloudinary.uploader.upload(req.file.path, function(result) {
@@ -127,7 +127,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, upload.single('image'), 
 })
 
 // Destroy Route
-router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
+router.delete("/:id", middleware.checkBlogOwnership, function(req, res){
     Campground.findByIdAndRemove(req.params.id, function(err){
         if (err){
             res.redirect("/campgrounds");

@@ -14,6 +14,7 @@ var express     = require("express"),
 
 var indexRoutes = require("./routes/index"),
     galleryRoutes = require("./routes/galleries"),
+    photoRoutes = require("./routes/photos"),
     blogRoutes = require("./routes/blogs"),
     campgroundRoutes = require("./routes/campgrounds"),
     commentRoutes = require("./routes/comments");
@@ -50,9 +51,9 @@ app.use(function(req, res, next){
 
 app.use("/", indexRoutes);
 app.use("/galleries", galleryRoutes);
+app.use("/galleries/:galleryId/photos", photoRoutes);
+app.use("/galleries/:galleryId/photos/:photoId/comments", commentRoutes);
 app.use("/blogs", blogRoutes);
-app.use("/campgrounds", campgroundRoutes);
-app.use("/campgrounds/:id/comments", commentRoutes);
 
 
 var port = process.env.PORT || 4000;

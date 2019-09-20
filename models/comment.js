@@ -2,6 +2,7 @@
 
 var commentSchema = new mongoose.Schema({
 	text: String,
+	datetime: String,
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
