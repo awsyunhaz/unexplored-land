@@ -161,6 +161,12 @@ html {
   }
 }
 
+
+/*Intro*/
 #intro{
   background: #f5d9d5;
+}
+
+#intro .lead{
+  font-size: 1.5rem;
 }
