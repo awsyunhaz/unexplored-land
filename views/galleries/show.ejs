@@ -39,12 +39,6 @@
                 <input type="file" class="custom-file-input" name="image" id="image" accept="image/*" required>
                 <label class="custom-file-label" for="image">Choose file</label>
               </div>
-              <script type="text/javascript">
-                $('#image').on('change',function(){
-                  var fileName = $(this).val();
-                  $(this).next('.custom-file-label').html(fileName);
-                })
-              </script>
             </div>
             <div class="form-group">
               <label for="photo-location" class="col-form-label">Location</label>
@@ -75,7 +69,13 @@
       </div>
     <% }); %>
   </div>
-
 </div>
+
+<script type="text/javascript">
+  $('#image').on('change',function(){
+    var fileName = $(this).val();
+    $(this).next('.custom-file-label').html(fileName);
+  })
+</script>
 
 <% include ../partials/footer%>

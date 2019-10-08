@@ -39,13 +39,6 @@
                             <input type="file" class="custom-file-input" name="cover-image" id="cover-image" accept="image/*" required>
                             <label class="custom-file-label" for="cover-image">Choose file</label>
                         </div>
-<!--                        Display file name after uploading-->
-                        <script type="text/javascript">
-                            $('#cover-image').on('change',function(){
-                                var fileName = $(this).val();
-                                $(this).next('.custom-file-label').html(fileName);
-                            })
-                        </script>
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,6 +54,13 @@
     </div>
 </div>
 
+<!--Display file name after uploading-->
+<script type="text/javascript">
+    $('#cover-image').on('change',function(){
+        var fileName = $(this).val();
+        $(this).next('.custom-file-label').html(fileName);
+    })
+</script>
 
 
 <% include ../partials/footer.ejs %>

@@ -1,9 +1,9 @@
 #explore{
 	height: 100vh;
-	background-color: white;
+	background-color: aliceblue;
 }
 
-#explore h2{
+#explore h1{
 	margin-top: 15vh;
 	color: #0F6480;
 }
@@ -26,14 +26,14 @@
     width: 20%;
     display: block;
     position: relative;
-    margin-top: -1%;
+    margin-top: -1.5%;
     float: left;
 }
 
 #asia {
     width: 38%;
     display: block;
-    margin-left: -7%;
+    margin-left: -6.5%;
     float: left;
 }
 
@@ -59,4 +59,26 @@
     float: right;
     margin-top: -7%;
     margin-right: 6%;
+}
+
+.continent :hover{
+    opacity: 1;
+    -webkit-animation: flash 2s;
+    animation: flash 2s;
+}
+@-webkit-keyframes flash {
+    0% {
+        opacity: .4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes flash {
+    0% {
+        opacity: .4;
+    }
+    100% {
+        opacity: 1;
+    }
 }

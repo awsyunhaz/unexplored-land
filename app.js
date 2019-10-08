@@ -7,16 +7,13 @@ var express     = require("express"),
     passport    = require("passport"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
-
     User        = require("./models/user"),
-    Comment     = require("./models/comment"),
     seedDB      = require("./seeds");
 
 var indexRoutes = require("./routes/index"),
     galleryRoutes = require("./routes/galleries"),
     photoRoutes = require("./routes/photos"),
     blogRoutes = require("./routes/blogs"),
-    campgroundRoutes = require("./routes/campgrounds"),
     commentRoutes = require("./routes/comments");
 
 // mongoose.connect("mongodb://localhost/yelp_camp", {useNewUrlParser: true});
