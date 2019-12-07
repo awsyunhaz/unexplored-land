@@ -53,9 +53,9 @@ app.use("/galleries/:galleryId/photos/:photoId/comments", commentRoutes);
 app.use("/blogs", blogRoutes);
 
 
-var port = process.env.PORT || 4000;
+var port = process.env.PORT || 3000;
 // console.log(process.env.IP)
 // console.log(port)
 app.listen(port, process.env.IP, function(){
-    console.log("Server has started!");
+    console.log("Server has started on " + process.env.IP, + ' : ' + process.env.PORT);
 });
