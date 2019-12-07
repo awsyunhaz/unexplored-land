@@ -57,5 +57,5 @@ var port = process.env.PORT || 3000;
 // console.log(process.env.IP)
 // console.log(port)
 app.listen(port, process.env.IP, function(){
-    console.log("Server has started on " + process.env.IP, + ' : ' + process.env.PORT);
+    console.log("Server has started on " + 'http://ec2-18-218-106-242.us-east-2.compute.amazonaws.com:3000');
 });
