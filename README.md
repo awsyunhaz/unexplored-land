@@ -1,5 +1,18 @@
 # Unexplored Land
 
-Unexplored Land is a web application to share traveling experiences and preserve memories. It allows users to create their accounts, write blogs, create photo galleries and post comments. 
+Unexplored Land is a web application running on AWS EC2. It allows users to write blogs, create photo galleries and post comments on traveling experiences.
 
-Visit our website on https://unexplored-land.herokuapp.com/.
+## Tech Stack
+* Bootstrap, EJS
+* Nodejs, Express, MongoDB
+* Google API
+* AWS EC2
+* Nginx
+
+## Main Features
+* Create your gallery/blog
+* Google Map display
+* Display visited locations on world map
+* Fuzzy site search
+
+Visit our [website](http://ec2-3-15-224-92.us-east-2.compute.amazonaws.com/).
