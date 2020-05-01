@@ -15,4 +15,4 @@ Unexplored Land is a web application running on AWS EC2. It allows users to writ
 * Display visited locations on world map
 * Fuzzy site search
 
-Visit our [website](http://ec2-3-15-224-92.us-east-2.compute.amazonaws.com/).
+Visit our [website](http://ec2-3-17-109-145.us-east-2.compute.amazonaws.com/).
